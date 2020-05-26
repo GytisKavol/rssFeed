@@ -44,13 +44,13 @@ export const ArticleList = () => {
           <h3>Filtered feed</h3>
           <ul className="list">
             {articlesFiltered.map((articleFiltered, index) =>
-              keywords.map((keyword) => (
+  
                 <ArticleFiltered
                   key={index}
                   articleFiltered={articleFiltered}
                   keyword={keyword}
                 />
-              ))
+              
             )}
           </ul>
         </div>
