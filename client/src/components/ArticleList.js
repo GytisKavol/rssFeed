@@ -8,15 +8,18 @@ export const ArticleList = () => {
   const {
     articles,
     clickFilterBtn,
+    keywords,
     clickFilter,
     getArticles,
     articlesFiltered,
     getArticlesFiltered,
+    getKeywords,
   } = useContext(GlobalContext);
 
   useEffect(() => {
     getArticles();
     getArticlesFiltered();
+    getKeywords();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -40,9 +43,15 @@ export const ArticleList = () => {
           {" "}
           <h3>Filtered feed</h3>
           <ul className="list">
-            {articlesFiltered.map((articleFiltered, index) => (
-              <ArticleFiltered key={index} articleFiltered={articleFiltered} />
-            ))}
+            {articlesFiltered.map((articleFiltered, index) =>
+              keywords.map((keyword) => (
+                <ArticleFiltered
+                  key={index}
+                  articleFiltered={articleFiltered}
+                  keyword={keyword}
+                />
+              ))
+            )}
           </ul>
         </div>
       )}
