@@ -1,8 +1,7 @@
 import React from "react";
 import { ReactTinyLink } from "react-tiny-link";
 
-export const ArticleFiltered = ({ articleFiltered, keyword }) => {
-  console.log(keyword.keywordText)
+export const ArticleFiltered = ({ articleFiltered }) => {
   return (
     <li>
       <ReactTinyLink
