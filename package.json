@@ -1,7 +1,7 @@
 {
-  "name": "expense-tracker-mern",
+  "name": "rss-reader-mern",
   "version": "1.0.0",
-  "description": "Backend for expense tracker",
+  "description": "Backend for RSS reader",
   "main": "server.js",
   "scripts": {
     "start": "node server",
@@ -10,7 +10,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
-  "author": "Brad Traversy",
+  "author": "Gytis Kavoliunas",
   "license": "MIT",
   "dependencies": {
     "colors": "^1.4.0",

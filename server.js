@@ -11,6 +11,8 @@ connectDB();
 
 const urls = require('./routes/urls');
 const articles = require('./routes/articles');
+const keywords = require('./routes/keywords');
+const articlesFiltered = require('./routes/articlesFiltered');
 
 
 const app = express();
@@ -23,7 +25,8 @@ if(process.env.NODE_ENV === 'development') {
 
 app.use('/api/v1/urls', urls);
 app.use('/api/v1/articles', articles);
-
+app.use('/api/v1/keywords', keywords);
+app.use('/api/v1/articlesFiltered', articlesFiltered);
 
 if(process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));

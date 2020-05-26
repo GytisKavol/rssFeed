@@ -6,8 +6,11 @@ import axios from 'axios';
 const initialState = {
   urls: [],
   articles: [],
+  keywords: [],
+  articlesFiltered: [],
   error: null,
-  loading: true
+  loading: true,
+  clickFilterBtn: true
 }
 
 // Create context
@@ -18,6 +21,11 @@ export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
   // Actions
+  async function clickFilter(clickFilterBtn) {
+    dispatch({
+    type: 'CLICK_FILTER',
+    payload: clickFilterBtn
+  })}
   async function getUrls() {
     try {
       const res = await axios.get('/api/v1/urls');
@@ -33,6 +41,21 @@ export const GlobalProvider = ({ children }) => {
       });
     }
   }
+  async function getArticlesFiltered() {
+    try {
+      const res = await axios.get('/api/v1/articlesFiltered');
+
+      dispatch({
+        type: 'GET_ARTICLES_FILTERED',
+        payload: res.data.data
+      });
+    } catch (err) {
+      dispatch({
+        type: 'ARTICLES_FILTERED_ERROR',
+        payload: err.response.data.error
+      });
+    }
+  }
   async function getArticles() {
     try {
       const res = await axios.get('/api/v1/articles');
@@ -44,6 +67,36 @@ export const GlobalProvider = ({ children }) => {
     } catch (err) {
       dispatch({
         type: 'ARTICLES_ERROR',
+        payload: err.response.data.error
+      });
+    }
+  }
+  async function getKeywords() {
+    try {
+      const res = await axios.get('/api/v1/keywords');
+
+      dispatch({
+        type: 'GET_KEYWORDS',
+        payload: res.data.data
+      });
+    } catch (err) {
+      dispatch({
+        type: 'KEYWORD_ERROR',
+        payload: err.response.data.error
+      });
+    }
+  }
+  async function deleteKeyword(id) {
+    try {
+      await axios.delete(`/api/v1/keywords/${id}`);
+
+      dispatch({
+        type: 'DELETE_KEYWORD',
+        payload: id
+      });
+    } catch (err) {
+      dispatch({
+        type: 'KEYWORD_ERROR',
         payload: err.response.data.error
       });
     }
@@ -85,16 +138,44 @@ export const GlobalProvider = ({ children }) => {
       });
     }
   }
+  async function addKeyword(keyword) {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
 
+    try {
+      const res = await axios.post('/api/v1/keywords', keyword, config);
+
+      dispatch({
+        type: 'ADD_KEYWORD',
+        payload: res.data.data
+      });
+    } catch (err) {
+      dispatch({
+        type: 'KEYWORD_ERROR',
+        payload: err.response.data.error
+      });
+    }
+  }
   return (<GlobalContext.Provider value={{
     urls: state.urls,
     articles: state.articles,
+    articlesFiltered: state.articlesFiltered,
+    keywords: state.keywords,
     error: state.error,
     loading: state.loading,
+    clickFilterBtn: state.clickFilterBtn,
+    clickFilter,
     getUrls,
     deleteUrl,
     addUrl,
-    getArticles
+    getArticles,
+    getArticlesFiltered,
+    getKeywords,
+    deleteKeyword,
+    addKeyword
   }}>
     {children}
   </GlobalContext.Provider>);

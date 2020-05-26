@@ -13,7 +13,7 @@ export const UrlList = () => {
 
   return (
     <>
-      <h3>Current feeds</h3>
+      <h3>Current websites</h3>
       <ul className="list">
         {urls.map(url => (<Url key={url._id} url={url} />))}
       </ul>
