@@ -4,7 +4,8 @@ import axios from 'axios';
 
 // Initial state
 const initialState = {
-  transactions: [],
+  urls: [],
+  articles: [],
   error: null,
   loading: true
 }
@@ -17,39 +18,53 @@ export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
   // Actions
-  async function getTransactions() {
+  async function getUrls() {
     try {
-      const res = await axios.get('/api/v1/transactions');
+      const res = await axios.get('/api/v1/urls');
 
       dispatch({
-        type: 'GET_TRANSACTIONS',
+        type: 'GET_URLS',
         payload: res.data.data
       });
     } catch (err) {
       dispatch({
-        type: 'TRANSACTION_ERROR',
+        type: 'URL_ERROR',
         payload: err.response.data.error
       });
     }
   }
-
-  async function deleteTransaction(id) {
+  async function getArticles() {
     try {
-      await axios.delete(`/api/v1/transactions/${id}`);
+      const res = await axios.get('/api/v1/articles');
 
       dispatch({
-        type: 'DELETE_TRANSACTION',
+        type: 'GET_ARTICLES',
+        payload: res.data.data
+      });
+    } catch (err) {
+      dispatch({
+        type: 'ARTICLES_ERROR',
+        payload: err.response.data.error
+      });
+    }
+  }
+  async function deleteUrl(id) {
+    try {
+      await axios.delete(`/api/v1/urls/${id}`);
+
+      dispatch({
+        type: 'DELETE_URL',
         payload: id
       });
     } catch (err) {
       dispatch({
-        type: 'TRANSACTION_ERROR',
+        type: 'URL_ERROR',
         payload: err.response.data.error
       });
     }
   }
 
-  async function addTransaction(transaction) {
+  async function addUrl(url) {
     const config = {
       headers: {
         'Content-Type': 'application/json'
@@ -57,27 +72,29 @@ export const GlobalProvider = ({ children }) => {
     }
 
     try {
-      const res = await axios.post('/api/v1/transactions', transaction, config);
+      const res = await axios.post('/api/v1/urls', url, config);
 
       dispatch({
-        type: 'ADD_TRANSACTION',
+        type: 'ADD_URL',
         payload: res.data.data
       });
     } catch (err) {
       dispatch({
-        type: 'TRANSACTION_ERROR',
+        type: 'URL_ERROR',
         payload: err.response.data.error
       });
     }
   }
 
   return (<GlobalContext.Provider value={{
-    transactions: state.transactions,
+    urls: state.urls,
+    articles: state.articles,
     error: state.error,
     loading: state.loading,
-    getTransactions,
-    deleteTransaction,
-    addTransaction
+    getUrls,
+    deleteUrl,
+    addUrl,
+    getArticles
   }}>
     {children}
   </GlobalContext.Provider>);

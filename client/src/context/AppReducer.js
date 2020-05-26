@@ -1,22 +1,28 @@
 export default (state, action) => {
   switch(action.type) {
-    case 'GET_TRANSACTIONS':
+    case 'GET_URLS':
       return {
         ...state,
         loading: false,
-        transactions: action.payload
+        urls: action.payload
       }
-    case 'DELETE_TRANSACTION':
+      case 'GET_ARTICLES':
+        return {
+          ...state,
+          loading: false,
+          articles: action.payload
+        }
+    case 'DELETE_URL':
       return {
         ...state,
-        transactions: state.transactions.filter(transaction => transaction._id !== action.payload)
+        urls: state.urls.filter(url => url._id !== action.payload)
       }
-    case 'ADD_TRANSACTION':
+    case 'ADD_URL':
       return {
         ...state,
-        transactions: [...state.transactions, action.payload]
+        urls: [...state.urls, action.payload]
       }
-    case 'TRANSACTION_ERROR':
+    case 'URL_ERROR':
       return {
         ...state,
         error: action.payload

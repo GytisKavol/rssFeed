@@ -9,7 +9,9 @@ dotenv.config({ path: './config/config.env' });
 
 connectDB();
 
-const transactions = require('./routes/transactions');
+const urls = require('./routes/urls');
+const articles = require('./routes/articles');
+
 
 const app = express();
 
@@ -19,7 +21,9 @@ if(process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-app.use('/api/v1/transactions', transactions);
+app.use('/api/v1/urls', urls);
+app.use('/api/v1/articles', articles);
+
 
 if(process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));

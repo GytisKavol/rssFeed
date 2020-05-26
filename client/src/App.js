@@ -1,24 +1,29 @@
-import React from 'react';
-import { Header } from './components/Header';
-import { Balance } from './components/Balance';
-import { IncomeExpenses } from './components/IncomeExpenses';
-import { TransactionList } from './components/TransactionList';
-import { AddTransaction } from './components/AddTransaction';
+import React from "react";
+import { Header } from "./components/Header";
+import { UrlList } from "./components/UrlList";
+import { AddUrl } from "./components/AddUrl";
+import { Layout } from "./componentStyle/Layout";
+import { NavigationBar } from "./componentStyle/NavigationBar";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { GlobalProvider } from "./context/GlobalState";
+import { ArticleList } from "./components/ArticleList";
+import "./App.css";
 
-import { GlobalProvider } from './context/GlobalState';
-
-import './App.css';
 
 function App() {
   return (
     <GlobalProvider>
-      <Header />
-      <div className="container">
-        <Balance />
-        <IncomeExpenses />
-        <TransactionList />
-        <AddTransaction />
-      </div>
+      <NavigationBar />
+      <Layout>
+        <Header />
+        <Router>
+          <div className="container">
+            <Route path="/" exact component={ArticleList} />
+            <Route path="/settings" exact component={UrlList} />
+            <Route path="/settings" exact component={AddUrl} />
+          </div>
+        </Router>
+      </Layout>
     </GlobalProvider>
   );
 }
