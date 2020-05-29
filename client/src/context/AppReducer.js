@@ -21,6 +21,7 @@ export default (state, action) => {
     case "CLICK_FILTER":
       return {
         ...state,
+        loading: false,
         clickFilterBtn: !state.clickFilterBtn,
       };
     case "GET_KEYWORDS":

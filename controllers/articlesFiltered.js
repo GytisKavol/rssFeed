@@ -25,11 +25,15 @@ exports.getArticlesFilter = async (req, res, next) => {
 
     filter.map((filter) => {
       concatFeed.map((item) => {
-        let regex = new RegExp("\\b(\\w*" + filter.keywordText + "\\w*)\\b", "i");
+        let regex = new RegExp(
+          "\\b(\\w*" + filter.keywordText + "\\w*)\\b",
+          "i"
+        );
         let found = item.title.match(regex) || item.desc.match(regex);
         if (found) {
           filterArray = filterArray.concat({
             link: item.link,
+            filter: filter.keywordText
           });
         }
       });
@@ -38,7 +42,7 @@ exports.getArticlesFilter = async (req, res, next) => {
       res.status(200).json({
         success: true,
         count: filterArray.length,
-        data: filterArray
+        data: filterArray,
       }),
       ((concatFeed = []), (filterArray = []))
     );
