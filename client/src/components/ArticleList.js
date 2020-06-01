@@ -22,10 +22,10 @@ export const ArticleList = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   if (loading) {
     return <img src={spinner} alt="loading..."></img>;
   }
-
   const unfilteredItems = articles.map((article, index) => (
     <Article key={index} article={article} />
   ));
@@ -38,6 +38,7 @@ export const ArticleList = () => {
       <button className="btn" onClick={clickFilter}>
         {clickFilterBtn ? `Filter articles` : `Unfilter articles`}
       </button>
+
       {clickFilterBtn ? (
         <div>
           {" "}

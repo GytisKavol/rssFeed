@@ -6,6 +6,7 @@ const connectDB = require("./config/db");
 const compression = require("compression");
 const helmet = require("helmet");
 const path = require("path");
+const cors = require("cors");
 dotenv.config({ path: "./config/config.env" });
 
 connectDB();
@@ -19,6 +20,7 @@ const app = express();
 app.use(helmet());
 app.use(compression());
 app.use(express.json());
+app.use(cors());
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
