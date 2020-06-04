@@ -1,18 +1,14 @@
 import React from "react";
-import { ReactTinyLink } from "react-tiny-link";
-
-export const ArticleFiltered = ({ articleFiltered }) => {
+import { ArticleFilteredDeep } from "./ArticleFilteredDeep";
+export const ArticleFiltered = ({ filter, array }) => {
   return (
     <>
-      <li>
-        <ReactTinyLink
-          cardSize="small"
-          showGraphic={true}
-          maxLine={2}
-          minLine={1}
-          url={articleFiltered.link}
-        />
-      </li>
+      {array.length > 0
+        ? `Keyword name is - ${filter} and there are ${array.length} articles that use it`
+        : " "}
+      {array.map((item) => (
+        <ArticleFilteredDeep link={item.link} />
+      ))}
     </>
   );
 };

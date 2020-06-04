@@ -2,6 +2,7 @@ let Url = require("../models/Urls");
 let Keyword = require("../models/Keywords");
 let concatFeed = [];
 let filterArray = [];
+let filterArray2 = [];
 let Parser = require("rss-parser");
 let parser = new Parser();
 
@@ -12,7 +13,6 @@ exports.getArticlesFilter = async (req, res, next) => {
     url.map((item) => {
       (async () => {
         let feed = await parser.parseURL(item.urlText);
-
         feed.items.map((item) => {
           concatFeed = concatFeed.concat({
             title: item.title,
@@ -26,26 +26,30 @@ exports.getArticlesFilter = async (req, res, next) => {
     filter.map((filter) => {
       concatFeed.map((item) => {
         let regex = new RegExp(
-          "\\b(\\w*" + filter.keywordText + "\\w*)\\b",
-          "i"
+          "(?:^|\\W)" + filter.keywordText + "(?:$|\\W)",
+          "gim"
         );
         let found = item.title.match(regex) || item.desc.match(regex);
         if (found) {
           filterArray = filterArray.concat({
             link: item.link,
-            filter: filter.keywordText
           });
         }
       });
+      filterArray2 = filterArray2.concat({
+        filter: filter.keywordText,
+        filterArray,
+      });
+      filterArray = [];
     });
-    return (
-      res.status(200).json({
-        success: true,
-        count: filterArray.length,
-        data: filterArray,
-      }),
-      ((concatFeed = []), (filterArray = []))
-    );
+      return (
+        res.status(200).json({
+          success: true,
+          count: filterArray2.length,
+          data: filterArray2,
+        }),
+        ((concatFeed = []), (filterArray2 = []))
+      );
   } catch (err) {
     return res.status(500).json({
       success: false,

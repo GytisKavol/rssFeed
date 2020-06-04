@@ -22,15 +22,19 @@ export const ArticleList = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   if (loading) {
     return <img src={spinner} alt="loading..."></img>;
   }
   const unfilteredItems = articles.map((article, index) => (
     <Article key={index} article={article} />
   ));
+  console.log(articlesFiltered.map(item => item.filterArray.sort()))
   const filteredItems = articlesFiltered.map((articleFiltered, index) => (
-    <ArticleFiltered key={index} articleFiltered={articleFiltered} />
+    <ArticleFiltered
+      key={index}
+      filter={articleFiltered.filter}
+      array={articleFiltered.filterArray}
+    />
   ));
 
   return (
