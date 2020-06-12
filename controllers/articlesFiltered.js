@@ -22,34 +22,41 @@ exports.getArticlesFilter = async (req, res, next) => {
         });
       })();
     });
-
-    filter.map((filter) => {
-      concatFeed.map((item) => {
-        let regex = new RegExp(
-          "(?:^|\\W)" + filter.keywordText + "(?:$|\\W)",
-          "gim"
-        );
-        let found = item.title.match(regex) || item.desc.match(regex);
-        if (found) {
-          filterArray = filterArray.concat({
-            link: item.link,
+    setTimeout(() => {
+      if (concatFeed.length > 1) {
+        filter.map((filter) => {
+          concatFeed.map((item) => {
+            let regex = new RegExp(
+              "(?:^|\\W)" + filter.keywordText + "(?:$|\\W)",
+              "gim"
+            );
+            let found = item.title.match(regex) || item.desc.match(regex);
+            if (found) {
+              filterArray = filterArray.concat({
+                link: item.link,
+              });
+            }
           });
-        }
-      });
-      filterArray2 = filterArray2.concat({
-        filter: filter.keywordText,
-        filterArray,
-      });
-      filterArray = [];
-    });
-      return (
-        res.status(200).json({
-          success: true,
-          count: filterArray2.length,
-          data: filterArray2,
-        }),
-        ((concatFeed = []), (filterArray2 = []))
-      );
+          filterArray2 = filterArray2.concat({
+            filter: filter.keywordText,
+            filterArray,
+          });
+          filterArray = [];
+        });
+      }
+    }, 1000);
+    setTimeout(() => {
+      if (filterArray2.length > 1) {
+        return (
+          res.status(200).json({
+            success: true,
+            count: filterArray2.length,
+            data: filterArray2,
+          }),
+          ((concatFeed = []), (filterArray2 = []))
+        );
+      }
+    }, 1000);
   } catch (err) {
     return res.status(500).json({
       success: false,

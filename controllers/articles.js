@@ -26,7 +26,7 @@ exports.getArticles = async (req, res, next) => {
         }),
         (feedItems = [])
       );
-    }, 1000);
+    }, 2000);
   } catch (err) {
     return res.status(500).json({
       success: false,

@@ -7,9 +7,11 @@ export const Article = ({ article }) => {
       <ReactTinyLink
         cardSize="small"
         showGraphic={true}
-        maxLine={2}
+        maxLine={1}
         minLine={1}
         url={article.link}
+        width={60}
+        proxyUrl="https://cors-anywhere.herokuapp.com"
       />
     </li>
   );

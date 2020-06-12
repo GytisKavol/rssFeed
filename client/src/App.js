@@ -8,9 +8,8 @@ import { NavigationBar } from "./componentStyle/NavigationBar";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { GlobalProvider } from "./context/GlobalState";
 import { ArticleList } from "./components/ArticleList";
+
 import "./App.css";
-
-
 
 function App() {
   return (

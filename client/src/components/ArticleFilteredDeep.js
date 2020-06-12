@@ -10,6 +10,7 @@ export const ArticleFilteredDeep = ({ link }) => {
         maxLine={2}
         minLine={1}
         url={link}
+        width={60}
       />
     </li>
   );

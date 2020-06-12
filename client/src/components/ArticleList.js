@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from "react";
 import { Article } from "./Article";
 import { ArticleFiltered } from "./ArticleFiltered";
 import spinner from "../utils/spinner.svg";
-
 import { GlobalContext } from "../context/GlobalState";
 
 export const ArticleList = () => {
@@ -22,20 +21,32 @@ export const ArticleList = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  if (loading) {
-    return <img src={spinner} alt="loading..."></img>;
-  }
+
   const unfilteredItems = articles.map((article, index) => (
     <Article key={index} article={article} />
   ));
-  console.log(articlesFiltered.map(item => item.filterArray.sort()))
-  const filteredItems = articlesFiltered.map((articleFiltered, index) => (
+
+  function compare(a, b) {
+    if (a.filterArray < b.filterArray) {
+      return 1;
+    }
+    if (a.filterArray > b.filterArray) {
+      return -1;
+    }
+    return 0;
+  }
+
+  const sortedArticlesFiltered = articlesFiltered.sort(compare);
+  const filteredItems = sortedArticlesFiltered.map((articleFiltered, index) => (
     <ArticleFiltered
       key={index}
       filter={articleFiltered.filter}
       array={articleFiltered.filterArray}
     />
   ));
+  if (loading) {
+    return <img className="loader" src={spinner} alt="loading..."></img>;
+  }
 
   return (
     <>
